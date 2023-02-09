@@ -1,7 +1,26 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kyrgyz_kitep/core/constants/app/app_constants.dart';
+import 'package:kyrgyz_kitep/core/init/codegen_loader.g.dart';
+import 'package:kyrgyz_kitep/core/init/language_manager.dart';
+import 'package:kyrgyz_kitep/core/init/locale_keys.g.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  // await configureInjection();
+  await ScreenUtil.ensureScreenSize();
+  runApp(
+    EasyLocalization(
+      child: MyApp(),
+      saveLocale: true,
+      supportedLocales: LanguageManager.instance.suppertedLocales,
+      fallbackLocale: LanguageManager.instance.suppertedLocales.first,
+      path: ApplicationConstants.languageAssetPath,
+      assetLoader: const CodegenLoader(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: LocaleKeys.registration.tr(),
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -24,7 +43,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(
+        title: LocaleKeys.delete.tr(),
+      ),
     );
   }
 }
