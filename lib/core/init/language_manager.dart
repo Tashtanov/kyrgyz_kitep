@@ -8,10 +8,10 @@ class LanguageManager {
     return _instance!;
   }
 
-  final relocale = const Locale('ru');
-  final kglocale = const Locale('ru');
+  final rulocale = const Locale('ru');
+  final kylocale = const Locale('ky');
   List<Locale> get suppertedLocales => [
-        relocale,
-        kglocale,
+        rulocale,
+        kylocale,
       ];
 }

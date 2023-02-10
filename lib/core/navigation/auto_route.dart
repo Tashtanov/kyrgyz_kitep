@@ -5,7 +5,7 @@ import 'package:kyrgyz_kitep/main.dart';
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(
-      page: MyApp,
+      page: MyHomePage,
       initial: true,
     ),
     // AutoRoute(page: NavigationPage),

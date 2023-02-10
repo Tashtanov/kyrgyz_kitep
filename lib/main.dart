@@ -1,15 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kyrgyz_kitep/core/constants/app/app_constants.dart';
-import 'package:kyrgyz_kitep/core/init/codegen_loader.g.dart';
 import 'package:kyrgyz_kitep/core/init/language_manager.dart';
-import 'package:kyrgyz_kitep/core/init/locale_keys.g.dart';
+
+import 'core/injection/injection.dart';
+import 'core/navigation/auto_route.gr.dart';
+import 'core/navigation/navigation.dart';
+// import 'generated/codegen_loader.g.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  // await configureInjection();
+  await configureInjection();
   await ScreenUtil.ensureScreenSize();
   runApp(
     EasyLocalization(
@@ -18,33 +22,35 @@ Future<void> main() async {
       supportedLocales: LanguageManager.instance.suppertedLocales,
       fallbackLocale: LanguageManager.instance.suppertedLocales.first,
       path: ApplicationConstants.languageAssetPath,
-      assetLoader: const CodegenLoader(),
+      // assetLoader: const CodegenLoader(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
+  final AppRouter _appRouter = Navigation.router;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: LocaleKeys.registration.tr(),
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return MaterialApp.router(
+      routerDelegate: _appRouter.delegate(
+        initialRoutes: [MyHomeRoute(title: "title")],
       ),
-      home: MyHomePage(
-        title: LocaleKeys.delete.tr(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      title: 'Kyrgyz_kitep',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
+        ),
+        primarySwatch: Colors.blue,
       ),
     );
   }
