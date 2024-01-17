@@ -58,7 +58,7 @@ dependencies:
   json_annotation: ^4.6.0
 
   #responsibility
-  flutter_screenutil: ^5.6.0
+  flutter_screenutil: ^5.9.0
 
 dev_dependencies:
   flutter_test:
